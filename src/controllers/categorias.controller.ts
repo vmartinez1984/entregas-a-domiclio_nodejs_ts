@@ -1,26 +1,27 @@
+import { Request } from "express";
 import { CategoriaDtoIn } from "../dtos/categoria.dto";
-import { IdDto } from "../dtos/id.dto";
-import { CategoriaRepositorio } from "../repositorios/categoria.repositorio";
+import { generarGuid } from "../ayudantes/ayudante";
+import { CategoriaRdn } from "../reglasDeNegocio/categoria.rdn";
 
-export class CategoriaController{
+export class CategoriaController {
+  private categoriaRdn: CategoriaRdn
 
-    async agregarAsync(categoria: CategoriaDtoIn):Promise<IdDto> {
-        // Simular id autoincrementable: buscar el mayor id actual y sumar 1
-        const ultimo = await CategoriaRepositorio.findOne().sort({ id: -1 }).limit(1).lean();
-        const nuevoId = (ultimo && typeof ultimo.id === 'number') ? ultimo.id + 1 : 1;
+  constructor() {
+    this.categoriaRdn = new CategoriaRdn()
+  }
 
-        // Crear encodedkey simple (por ejemplo, base64 del nombre + id)
-        const encodedkey = Buffer.from(`${categoria.nombre}-${nuevoId}`).toString('base64');
+  agregarAsync = async (req: Request, res: Response) => {
+    const categoria: CategoriaDtoIn = {
+      encodedkey: req.body.encodedkey || generarGuid(),
+      nombre: req.body.nombre,
+    };
+    const idDto = await this.categoriaRdn.agregarAsync(categoria)
+    return res.status(201).json(idDto);
+  };
 
-        const documento = new CategoriaRepositorio({
-            id: nuevoId,
-            nombre: categoria.nombre,
-            encodedkey: categoria.encodedkey,
-            estaActivo: true
-        });
+  obtenerTodosAsync = async (req: Request, res: Response) => {
+    const dtos = await this.categoriaRdn.obtenerTodosAsync()
 
-        await documento.save();
-
-        return { id: nuevoId } as IdDto;
-    }
+    res.status(200).json(dtos)
+  };
 }

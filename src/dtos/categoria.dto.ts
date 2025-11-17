@@ -3,7 +3,7 @@ export interface CategoriaDtoIn{
     nombre:string
 }
 
-export interface CategoriaDtoIn{
+export interface CategoriaDto{
     id:number
     encodedkey:string
     nombre:string
