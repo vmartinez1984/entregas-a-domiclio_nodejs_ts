@@ -1,8 +1,17 @@
+import { isNumberString } from "../ayudantes/ayudante";
 import { CategoriaDto, CategoriaDtoIn } from "../dtos/categoria.dto";
 import { IdDto } from "../dtos/id.dto"
 import { CategoriaRepositorio } from "../repositorios/categoria.repositorio";
 
 export class CategoriaRdn {
+
+    async obtenerPorIdAsync(idEncodedkey: string) {
+        if (isNumberString(idEncodedkey)) {
+            return await CategoriaRepositorio.findOne({ id: Number(idEncodedkey) })
+        }
+
+        return await CategoriaRepositorio.findOne({ encodedkey: idEncodedkey })
+    }
 
     async agregarAsync(categoria: CategoriaDtoIn): Promise<IdDto> {
 
@@ -31,7 +40,7 @@ export class CategoriaRdn {
     }
 
     async obtenerTodosAsync(): Promise<CategoriaDto[]> {
-        const categorias = await CategoriaRepositorio.find();
+        const categorias = await CategoriaRepositorio.find({ estaActivo: true });
         let dtos: CategoriaDto[] = [];
         categorias.forEach((item) => {
             dtos.push({
@@ -43,4 +52,27 @@ export class CategoriaRdn {
 
         return dtos
     }
+
+    async actualizarAsync(categoria: CategoriaDto): Promise<void> {
+        await CategoriaRepositorio.updateOne(
+            { encodedkey: categoria.encodedkey },
+            {
+                $set: {
+                    nombre: categoria.nombre
+                },
+            }
+        );
+    }
+
+    async borrarAsync(categoria: CategoriaDto): Promise<void> {
+        await CategoriaRepositorio.updateOne(
+            { encodedkey: categoria.encodedkey },
+            {
+                $set: {
+                    estaActivo: false
+                },
+            }
+        );
+    }
+
 }

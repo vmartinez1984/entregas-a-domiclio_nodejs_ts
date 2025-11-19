@@ -5,3 +5,11 @@ export function generarGuid() {
         return v.toString(16);
     });
 }
+
+export function isNumberString(s: string): boolean {
+  if (typeof s !== 'string') return false;
+  s = s.trim();
+  if (s === '') return false;
+  const n = Number(s);
+  return Number.isFinite(n);
+}
