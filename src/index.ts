@@ -12,6 +12,7 @@ conectarDB();
 app.use("/api", router)
 app.use("/api", productoRouter)
 app.use("/api", usuarioRouter)
+app.use("/api", ordenRouter)
 
 app.use("/", (req: Request, res: Response) => {
   res.status(200).json({ message: "Hola mundo entregas a domicilio" });
