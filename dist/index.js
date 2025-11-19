@@ -8,12 +8,14 @@ const conexionDb_1 = __importDefault(require("./repositorios/conexionDb"));
 const catetoria_router_1 = __importDefault(require("./rutas/catetoria.router"));
 const producto_router_1 = __importDefault(require("./rutas/producto.router"));
 const usuario_ruta_1 = __importDefault(require("./rutas/usuario.ruta"));
+const orden_ruta_1 = __importDefault(require("./rutas/orden.ruta"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 (0, conexionDb_1.default)();
 app.use("/api", catetoria_router_1.default);
 app.use("/api", producto_router_1.default);
 app.use("/api", usuario_ruta_1.default);
+app.use("/api", orden_ruta_1.default);
 app.use("/", (req, res) => {
     res.status(200).json({ message: "Hola mundo entregas a domicilio" });
 });

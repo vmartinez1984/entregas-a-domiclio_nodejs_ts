@@ -1,5 +1,5 @@
 //require("dotenv").config({ path: "variables.env" });
-import mongoose from "mongoose";
+import mongoose from "mongoose"
 
 const conectarDB = async () => {
   try {
@@ -18,4 +18,4 @@ const conectarDB = async () => {
   }
 };
 
-module.exports = conectarDB 
+export default conectarDB

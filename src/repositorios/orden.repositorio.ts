@@ -21,7 +21,7 @@ const OrdenSchema = new Schema<OrdenDocument>({
     estado: { type: String, required: true },
     total: { type: Number, required: true },    
     fechaDeActualizacion: { type: Date, required: true },
-    productos: { type: Array, required: true },    
+    productos: ({ type: [Schema.Types.Mixed], required: true } as any),    
 }, { timestamps: true })
 
 export const OrdenRepositorio = model<OrdenDocument>('Ordenes', OrdenSchema)

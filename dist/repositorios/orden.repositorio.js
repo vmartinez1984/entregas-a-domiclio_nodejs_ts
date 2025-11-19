@@ -11,6 +11,6 @@ const OrdenSchema = new mongoose_1.Schema({
     estado: { type: String, required: true },
     total: { type: Number, required: true },
     fechaDeActualizacion: { type: Date, required: true },
-    productos: { type: Array, required: true },
+    productos: { type: [mongoose_1.Schema.Types.Mixed], required: true },
 }, { timestamps: true });
 exports.OrdenRepositorio = (0, mongoose_1.model)('Ordenes', OrdenSchema);
