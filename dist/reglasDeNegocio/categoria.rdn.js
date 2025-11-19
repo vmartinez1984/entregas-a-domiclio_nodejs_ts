@@ -1,38 +1,32 @@
-import { CategoriaDto, CategoriaDtoIn } from "../dtos/categoria.dto";
-import { IdDto } from "../dtos/id.dto"
-import { CategoriaRepositorio } from "../repositorios/categoria.repositorio";
-
-export class CategoriaRdn {
-
-    async agregarAsync(categoria: CategoriaDtoIn): Promise<IdDto> {
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.CategoriaRdn = void 0;
+const categoria_repositorio_1 = require("../repositorios/categoria.repositorio");
+class CategoriaRdn {
+    async agregarAsync(categoria) {
         // Simular id autoincrementable: buscar el mayor id actual y sumar 1
-        const ultimo = await CategoriaRepositorio.findOne()
+        const ultimo = await categoria_repositorio_1.CategoriaRepositorio.findOne()
             .sort({ id: -1 })
             .limit(1)
             .lean();
         const nuevoId = ultimo && typeof ultimo.id === "number" ? ultimo.id + 1 : 1;
-
-        const documento = new CategoriaRepositorio({
+        const documento = new categoria_repositorio_1.CategoriaRepositorio({
             id: nuevoId,
             nombre: categoria.nombre,
             encodedkey: categoria.encodedkey,
             estaActivo: true,
         });
-
         await documento.save();
-        const idDto: IdDto = {
+        const idDto = {
             encodedkey: categoria.encodedkey,
             id: nuevoId,
             fecha: new Date(),
         };
-
-        return idDto
+        return idDto;
     }
-
-    async obtenerTodosAsync(): Promise<CategoriaDto[]> {
-        const categorias = await CategoriaRepositorio.find();
-        let dtos: CategoriaDto[] = [];
+    async obtenerTodosAsync() {
+        const categorias = await categoria_repositorio_1.CategoriaRepositorio.find();
+        let dtos = [];
         categorias.forEach((item) => {
             dtos.push({
                 encodedkey: item.encodedkey,
@@ -40,7 +34,7 @@ export class CategoriaRdn {
                 nombre: item.nombre,
             });
         });
-
-        return dtos
+        return dtos;
     }
 }
+exports.CategoriaRdn = CategoriaRdn;

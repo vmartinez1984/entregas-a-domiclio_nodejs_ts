@@ -1,4 +1,4 @@
-import { Request } from "express";
+import { Request, Response } from "express"
 import { CategoriaDtoIn } from "../dtos/categoria.dto";
 import { generarGuid } from "../ayudantes/ayudante";
 import { CategoriaRdn } from "../reglasDeNegocio/categoria.rdn";

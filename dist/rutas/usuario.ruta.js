@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const usuarios_controller_1 = require("../controllers/usuarios.controller");
+const validacion_1 = require("../middlewares/validacion");
+const usuario_dto_1 = require("../dtos/usuario.dto");
+const usuarioRouter = (0, express_1.Router)();
+const controller = new usuarios_controller_1.UsuariosController();
+usuarioRouter.post('/usuarios/inicioDeSesiones', controller.iniciarSesionAsync);
+usuarioRouter.post('/usuarios', usuario_dto_1.usuarioChecks, validacion_1.revisarValidacion, controller.agregarAsync);
+exports.default = usuarioRouter;

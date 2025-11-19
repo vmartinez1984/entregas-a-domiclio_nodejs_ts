@@ -1,6 +1,6 @@
-import { validationResult } from 'express-validator';
-import { ProductoDtoIn } from '../dtos/produto.dto';
-import { ProductoRdn } from '../reglasDeNegocio/producto.rdn';
+import { Request, Response } from "express"
+import { ProductoDtoIn } from '../dtos/produto.dto'
+import { ProductoRdn } from '../reglasDeNegocio/producto.rdn'
 
 export class ProductosController {
     private productoRdn: ProductoRdn

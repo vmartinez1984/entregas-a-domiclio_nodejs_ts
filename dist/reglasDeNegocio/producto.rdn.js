@@ -1,18 +1,16 @@
-import { IdDto } from "../dtos/id.dto";
-import { ProductoDto, ProductoDtoIn } from "../dtos/produto.dto";
-import { ProductoRepositorio } from "../repositorios/producto.repositorio";
-
-export class ProductoRdn {
-
-    async agregarAsync(producto: ProductoDtoIn): Promise<IdDto> {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ProductoRdn = void 0;
+const producto_repositorio_1 = require("../repositorios/producto.repositorio");
+class ProductoRdn {
+    async agregarAsync(producto) {
         // Simular id autoincrementable: buscar el mayor id actual y sumar 1
-        const ultimo = await ProductoRepositorio.findOne()
+        const ultimo = await producto_repositorio_1.ProductoRepositorio.findOne()
             .sort({ id: -1 })
             .limit(1)
             .lean();
         const nuevoId = ultimo && typeof ultimo.id === "number" ? ultimo.id + 1 : 1;
-
-        const documento = new ProductoRepositorio({
+        const documento = new producto_repositorio_1.ProductoRepositorio({
             id: nuevoId,
             nombre: producto.nombre,
             descripcion: producto.descripcion,
@@ -23,29 +21,26 @@ export class ProductoRdn {
             estaActivo: true
         });
         await documento.save();
-
-        const idDto: IdDto = {
+        const idDto = {
             encodedkey: producto.encodedkey,
             id: nuevoId,
             fecha: new Date(),
         };
-
-        return idDto
+        return idDto;
     }
-
-    async obtenerTodosAsync(): Promise<ProductoDto[]> {
-        const productos = await ProductoRepositorio.find()
-        let dtos: ProductoDto[] = []
+    async obtenerTodosAsync() {
+        const productos = await producto_repositorio_1.ProductoRepositorio.find();
+        let dtos = [];
         productos.forEach((item) => {
             dtos.push({
                 encodedkey: item.encodedkey,
                 id: item.id,
                 nombre: item.nombre,
                 descripcion: item.descripcion,
-                precio: item.precio         
+                precio: item.precio
             });
         });
-
-        return dtos
+        return dtos;
     }
 }
+exports.ProductoRdn = ProductoRdn;
