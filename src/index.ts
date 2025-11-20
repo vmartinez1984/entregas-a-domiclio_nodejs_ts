@@ -4,10 +4,19 @@ import router from "./rutas/catetoria.router"
 import productoRouter from "./rutas/producto.router"
 import usuarioRouter from "./rutas/usuario.ruta"
 import ordenRouter from "./rutas/orden.ruta"
+import fileUpload from 'express-fileupload';
+import path from "path"
 
 const app = express();
 app.use(express.json());
 conectarDB();
+
+app.use(fileUpload({
+  createParentPath: true,
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB
+  useTempFiles: false,
+}));
+app.use("/", express.static(path.join(__dirname, "..", "public")))
 
 app.use("/api", router)
 app.use("/api", productoRouter)

@@ -1,4 +1,5 @@
 import { Request, Response } from "express"
+import { UploadedFile } from 'express-fileupload'
 import { ProductoDtoIn } from '../dtos/produto.dto'
 import { ProductoRdn } from '../reglasDeNegocio/producto.rdn'
 
@@ -11,8 +12,10 @@ export class ProductosController {
 
     agregarAsync = async (req: Request, res: Response) => {
         const producto: ProductoDtoIn = new ProductoDtoIn(req.body)
-        const idDto = await this.productoRdn.agregarAsync(producto)
-
+        var archivo = req.files?.imagen as UploadedFile
+        //console.log(archivo);
+        const idDto = await this.productoRdn.agregarAsync(producto, archivo);
+        // Aquí podrías guardar el archivo en el servidor o en un servicio de almacenamiento
         return res.status(201).json(idDto);
     }
 
@@ -22,4 +25,10 @@ export class ProductosController {
         return res.status(200).json(productos);
     }
 
+    obtenerPorCategoriaIdAsync = async (req: Request, res: Response) => {
+        const categoriaId = req.params.categoriaId
+        const productos = await this.productoRdn.obtenerPorCategoriaIdAsync(categoriaId)
+
+        return res.status(200).json(productos)
+    }
 }

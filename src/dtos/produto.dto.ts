@@ -8,7 +8,9 @@ export const productoChecks = [
 		.isString()
 		.withMessage('El nombre debe ser texto')
 		.trim(),
-
+	check('categoriaId')
+		.notEmpty()
+		.withMessage('La categoriaId es obligatorio'),	
 	check('descripcion')
 		.notEmpty()
 		.withMessage('La descripcion es obligatoria')
@@ -25,19 +27,19 @@ export const productoChecks = [
 ];
 
 export class ProductoDtoIn {
-    nombre: string
-    descripcion: string
-    precio: number
-    encodedkey: any
+	nombre: string
+	descripcion: string
+	precio: number
+	encodedkey: any
 	categoriaId: number
 
-    constructor(body: any) {        
-        this.nombre = body.nombre
-        this.descripcion = body.descripcion
-        this.precio = body.precio
+	constructor(body: any) {
+		this.nombre = body.nombre
+		this.descripcion = body.descripcion
+		this.precio = body.precio
 		this.categoriaId = body.categoriaId
 		this.encodedkey = body.encodedkey || generarGuid()
-    }
+	}
 }
 
 export interface ProductoDto {
@@ -45,5 +47,6 @@ export interface ProductoDto {
 	nombre: string
 	descripcion: string
 	precio: number
-	encodedkey: string
+	encodedkey: string,
+	nombreDeLaImagen: string
 }

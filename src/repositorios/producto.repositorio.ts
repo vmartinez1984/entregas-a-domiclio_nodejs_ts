@@ -7,6 +7,8 @@ export interface ProductoDocument extends Document {
     precio: number
     categoriaId: number
     encodedkey: string
+    nombreDeLaImagen: string
+    rutaDeLaImagen: string
     estaActivo: boolean
 }
 
@@ -17,7 +19,9 @@ const ProductoSchema = new Schema<ProductoDocument>({
     precio: { type: Number, required: true },
     categoriaId: { type: Number, required: true },
     encodedkey: { type: String, required: true },
-    estaActivo: { type: Boolean, required: true }
+    estaActivo: { type: Boolean, required: true },
+    nombreDeLaImagen: { type: String, required: false },
+    rutaDeLaImagen: { type: String, required: false }
 }, { timestamps: true })
 
 export const ProductoRepositorio = model<ProductoDocument>('Productos', ProductoSchema)

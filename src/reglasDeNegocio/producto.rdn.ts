@@ -1,10 +1,36 @@
+import path from "path";
+import { AlmacenDeArchivos } from "../almacenes/almacen-de-archivos";
 import { IdDto } from "../dtos/id.dto";
 import { ProductoDto, ProductoDtoIn } from "../dtos/produto.dto";
 import { ProductoRepositorio } from "../repositorios/producto.repositorio";
 
 export class ProductoRdn {
 
-    async agregarAsync(producto: ProductoDtoIn): Promise<IdDto> {
+    async obtenerPorCategoriaIdAsync(categoriaId: string): Promise<ProductoDto[]> {
+        const productos = await ProductoRepositorio.find({ categoriaId: categoriaId })
+        let dtos: ProductoDto[] = []
+        productos.forEach((item) => {
+            dtos.push({
+                encodedkey: item.encodedkey,
+                id: item.id,
+                nombre: item.nombre,
+                descripcion: item.descripcion,
+                precio: item.precio,
+                nombreDeLaImagen: item.nombreDeLaImagen         
+            });
+        });
+
+        return dtos
+    }
+
+    async agregarAsync(producto: ProductoDtoIn, archivo: any): Promise<IdDto> {
+        let nombreDeLaImagen = ''
+        let rutaDeLaImagen = ''
+        if (archivo) {
+            let almacenDeArchivos: AlmacenDeArchivos = new AlmacenDeArchivos()
+            nombreDeLaImagen = `${producto.encodedkey}${path.extname(archivo.name).toLowerCase()}`
+            rutaDeLaImagen = await almacenDeArchivos.guardarArchivoAsync(nombreDeLaImagen, archivo.data)
+        }
         // Simular id autoincrementable: buscar el mayor id actual y sumar 1
         const ultimo = await ProductoRepositorio.findOne()
             .sort({ id: -1 })
@@ -19,6 +45,8 @@ export class ProductoRdn {
             encodedkey: producto.encodedkey,
             precio: producto.precio,
             categoriaId: producto.categoriaId,
+            nombreDeLaImagen: nombreDeLaImagen,
+            rutaDeLaImagen: rutaDeLaImagen,
             fecha: new Date(),
             estaActivo: true
         });
@@ -42,7 +70,8 @@ export class ProductoRdn {
                 id: item.id,
                 nombre: item.nombre,
                 descripcion: item.descripcion,
-                precio: item.precio         
+                precio: item.precio,
+                nombreDeLaImagen: item.nombreDeLaImagen,         
             });
         });
 
