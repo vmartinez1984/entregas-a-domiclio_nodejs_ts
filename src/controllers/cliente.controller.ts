@@ -1,19 +1,19 @@
 import { Request, Response } from "express"
-import { UsuarioRdn } from "../reglasDeNegocio/usuario.rdn"
-import { UsuarioDtoIn } from "../dtos/usuario.dto"
+import { ClienteRdn } from "../reglasDeNegocio/cliente.rdn"
+import { ClienteDtoIn } from "../dtos/cliente.dto"
 import { IdDto } from "../dtos/id.dto"
 import { InicioDeSesionDto } from "../dtos/inicio-de-sesion.dto"
 
-export class UsuariosController {
-    private usuarioRdn: UsuarioRdn
+export class ClientesController {
+    private usuarioRdn: ClienteRdn
 
     constructor() {
-        this.usuarioRdn = new UsuarioRdn()
+        this.usuarioRdn = new ClienteRdn()
     }
 
     agregarAsync = async (req: Request, res: Response) => {
         //console.log(req.body)
-        const usuario = new UsuarioDtoIn(req.body)
+        const usuario = new ClienteDtoIn(req.body)
         const usuarioregistrado = await this.usuarioRdn.obtenerPorIdAsync(usuario.encodedkey)
         if (usuarioregistrado) {
             const idDto: IdDto = {

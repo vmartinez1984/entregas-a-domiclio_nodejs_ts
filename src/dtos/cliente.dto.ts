@@ -1,7 +1,7 @@
 import { check } from "express-validator"
 import { generarGuid } from "../ayudantes/ayudante"
 
-export class UsuarioDtoIn{
+export class ClienteDtoIn{
     nombre: string
     correo: string
     contrasena: string
@@ -33,7 +33,7 @@ export class DireccionDto{
     }
 }
 
-export interface UsuarioDto{
+export interface ClienteDto{
     id: number
     nombre: string
     correo: string
@@ -41,7 +41,7 @@ export interface UsuarioDto{
     encodedkey: string    
 }
 
-export const usuarioChecks = [
+export const clienteChecks = [
     check('nombre')
         .notEmpty()
         .withMessage('El nombre es obligatorio')

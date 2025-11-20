@@ -1,19 +1,19 @@
 import { IdDto } from "../dtos/id.dto"
 import { InicioDeSesionDto } from "../dtos/inicio-de-sesion.dto";
 import { TokenDto } from "../dtos/token.dto";
-import { UsuarioDtoIn, UsuarioDto } from "../dtos/usuario.dto";
-import { UsuarioRepositorio } from "../repositorios/usuario.repositorio";
+import { ClienteDtoIn, ClienteDto } from "../dtos/cliente.dto";
+import { ClienteRepositorio } from "../repositorios/cliente.repositorio";
 import jwt from "jsonwebtoken"
 const secret = "VineAComalaABuscarAMiPadreUnTalPedroParamo"
 
-export class UsuarioRdn {
+export class ClienteRdn {
 
-    async obtenerPorIdAsync(encodedkey: string): Promise<UsuarioDto | null> {
-        const usuario = await UsuarioRepositorio.findOne({ encodedkey: encodedkey })
+    async obtenerPorIdAsync(encodedkey: string): Promise<ClienteDto | null> {
+        const usuario = await ClienteRepositorio.findOne({ encodedkey: encodedkey })
         if (usuario === null) {
             return null
         }
-        const usuarioDto: UsuarioDto = {
+        const usuarioDto: ClienteDto = {
             id: usuario.id,
             encodedkey: usuario.encodedkey,
             nombre: usuario.nombre,
@@ -30,15 +30,15 @@ export class UsuarioRdn {
         return usuarioDto
     }
 
-    async agregarAsync(usuario: UsuarioDtoIn): Promise<IdDto> {
+    async agregarAsync(usuario: ClienteDtoIn): Promise<IdDto> {
         // Simular id autoincrementable: buscar el mayor id actual y sumar 1
-        const ultimo = await UsuarioRepositorio.findOne()
+        const ultimo = await ClienteRepositorio.findOne()
             .sort({ id: -1 })
             .limit(1)
             .lean()
         const nuevoId = ultimo && typeof ultimo.id === "number" ? ultimo.id + 1 : 1
         //console.log(usuario)
-        const documento = new UsuarioRepositorio({
+        const documento = new ClienteRepositorio({
             id: nuevoId,
             nombre: usuario.nombre,
             correo: usuario.correo,
@@ -66,7 +66,7 @@ export class UsuarioRdn {
     }
 
     async obtnerTokenAsync(inicioDeSesion: InicioDeSesionDto): Promise<TokenDto | undefined> {
-        const usuario = await UsuarioRepositorio.findOne({ correo: inicioDeSesion.correo })
+        const usuario = await ClienteRepositorio.findOne({ correo: inicioDeSesion.correo })
         if (usuario == undefined)
             return undefined
         if (usuario.contrasena != inicioDeSesion.contrasena)

@@ -1,6 +1,6 @@
 import { Schema, model, Document } from 'mongoose'
 
-export interface UsuarioDocument extends Document {
+export interface ClienteDocument extends Document {
     id: number
     nombre: string
     correo: string
@@ -17,7 +17,7 @@ export interface UsuarioDocument extends Document {
     fecha: Date
 }
 
-const UsuarioSchema = new Schema<UsuarioDocument>({
+const ClienteSchema = new Schema<ClienteDocument>({
     id: { type: Number, required: true },
     nombre: { type: String, required: true },
     correo: { type: String, required: true },
@@ -34,4 +34,4 @@ const UsuarioSchema = new Schema<UsuarioDocument>({
     fecha: { type: Date, required: true }
 }, { timestamps: true })
 
-export const UsuarioRepositorio = model<UsuarioDocument>('Usuarios', UsuarioSchema)
+export const ClienteRepositorio = model<ClienteDocument>('Clientes', ClienteSchema)

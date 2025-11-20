@@ -2,6 +2,9 @@
 - [ ] Crud de productos
 - [ ] Productos con store files
 - [ ] Implementar swagger
+- [ ] Clientes
+- [ ] Usuarios
+- [ ] Agregar los productos completos
 
 ## Para celular
 Hacer lo más simple
@@ -14,6 +17,11 @@ Hacer lo más simple
 - [ ] post    api/clientes/inicioDeSesiones
 - [ ] post    api/ordenes
 - [ ] get     api/ordenes/clientes/:clienteId
+- [ ] post    api/usuarios/inicioDeSesiones
+
+# Admin
+- [x] post api/productos
+- [ ] put  api/productos/:productoId
 
 # Producto con imagen
 ```

@@ -1,7 +1,7 @@
 import { IdDto } from "../dtos/id.dto"
 import { OrdenDto, OrdenDtoIn } from "../dtos/orden.dto"
 import { OrdenRepositorio } from "../repositorios/orden.repositorio"
-import { UsuarioRepositorio } from "../repositorios/usuario.repositorio";
+import { ClienteRepositorio } from "../repositorios/cliente.repositorio";
 
 export class OrdenRdn {
     async obtenerPorIdAsync(encodedkey: string): Promise<OrdenDto | undefined> {
@@ -32,7 +32,7 @@ export class OrdenRdn {
             .lean();
         const nuevoId = ultimo && typeof ultimo.id === "number" ? ultimo.id + 1 : 1;
         const total = orden.productos.reduce((sum, item) => sum + item.precio, 0)
-        const usuario = await UsuarioRepositorio.findOne({ encodedkey: clienteId })
+        const usuario = await ClienteRepositorio.findOne({ encodedkey: clienteId })
         const documento = new OrdenRepositorio({
             id: nuevoId,
             clienteId: usuario?.id,
