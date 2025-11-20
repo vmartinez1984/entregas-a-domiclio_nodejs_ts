@@ -5,6 +5,22 @@ import { ProductoDto, ProductoDtoIn } from "../dtos/produto.dto";
 import { ProductoRepositorio } from "../repositorios/producto.repositorio";
 
 export class ProductoRdn {
+    
+    async obtenerPorEncodedKeyAsync(encodedkey: string): Promise<ProductoDto | null> {
+        const producto = await ProductoRepositorio.findOne({ encodedkey: encodedkey })
+        if (!producto) {
+            return null
+        }
+        const dto: ProductoDto = {
+            encodedkey: producto.encodedkey,
+            id: producto.id,
+            nombre: producto.nombre,
+            descripcion: producto.descripcion,
+            precio: producto.precio,
+            nombreDeLaImagen: producto.nombreDeLaImagen
+        }
+        return dto
+    }
 
     async obtenerPorCategoriaIdAsync(categoriaId: string): Promise<ProductoDto[]> {
         const productos = await ProductoRepositorio.find({ categoriaId: categoriaId })
@@ -16,7 +32,7 @@ export class ProductoRdn {
                 nombre: item.nombre,
                 descripcion: item.descripcion,
                 precio: item.precio,
-                nombreDeLaImagen: item.nombreDeLaImagen         
+                nombreDeLaImagen: item.nombreDeLaImagen
             });
         });
 
@@ -71,7 +87,7 @@ export class ProductoRdn {
                 nombre: item.nombre,
                 descripcion: item.descripcion,
                 precio: item.precio,
-                nombreDeLaImagen: item.nombreDeLaImagen,         
+                nombreDeLaImagen: item.nombreDeLaImagen,
             });
         });
 

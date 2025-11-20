@@ -10,7 +10,10 @@ export const productoChecks = [
 		.trim(),
 	check('categoriaId')
 		.notEmpty()
-		.withMessage('La categoriaId es obligatorio'),	
+		.withMessage('La categoriaId es obligatorio'),
+	check('imagen')
+		.notEmpty()
+		.withMessage('La imagen es obligatorio'),
 	check('descripcion')
 		.notEmpty()
 		.withMessage('La descripcion es obligatoria')

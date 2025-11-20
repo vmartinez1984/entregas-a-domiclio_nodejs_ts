@@ -17,6 +17,9 @@ app.use(fileUpload({
   useTempFiles: false,
 }));
 app.use("/", express.static(path.join(__dirname, "..", "public")))
+/*
+curl --location 'http://localhost:3001/images/16fa6b62-cd53-45d6-a238-e1673a7420ca.jpg'
+*/
 
 app.use("/api", router)
 app.use("/api", productoRouter)

@@ -12,10 +12,18 @@ export class ProductosController {
 
     agregarAsync = async (req: Request, res: Response) => {
         const producto: ProductoDtoIn = new ProductoDtoIn(req.body)
+        const productoRegsitrado = await this.productoRdn.obtenerPorEncodedKeyAsync(producto.encodedkey)
+        if (productoRegsitrado) {
+            return res.status(208).json({
+                encodedkey: productoRegsitrado.encodedkey,
+                id: productoRegsitrado.id,
+                fecha: new Date(),
+            })
+        }
         var archivo = req.files?.imagen as UploadedFile
         //console.log(archivo);
-        const idDto = await this.productoRdn.agregarAsync(producto, archivo);
         // Aquí podrías guardar el archivo en el servidor o en un servicio de almacenamiento
+        const idDto = await this.productoRdn.agregarAsync(producto, archivo);
         return res.status(201).json(idDto);
     }
 
