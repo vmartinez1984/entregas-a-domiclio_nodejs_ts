@@ -31,9 +31,14 @@ export class ClientesController {
     }
 
     iniciarSesionAsync = async (req: Request, res: Response) => {
+        console.log(req.headers.authorization)
+        let authHeader = req.headers.authorization || ""
+        const [type, credencialesEnBase64] = authHeader.split(" ")
+        const credencialesDecodificadas = Buffer.from(credencialesEnBase64, 'base64').toString('utf-8')
+        const [correo, contrasena] = credencialesDecodificadas.split(":")
         const inicioDeSesion: InicioDeSesionDto = {
-            correo: req.body.correo,
-            contrasena: req.body.contrasena
+            correo: correo,
+            contrasena: contrasena
         }
         const token = await this.usuarioRdn.obtnerTokenAsync(inicioDeSesion)
         if(token){

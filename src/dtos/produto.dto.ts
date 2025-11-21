@@ -20,7 +20,6 @@ export const productoChecks = [
 		.isString()
 		.withMessage('La descripcion debe ser texto')
 		.trim(),
-
 	check('precio')
 		.notEmpty()
 		.withMessage('El precio es obligatorio')

@@ -2,8 +2,6 @@ import { Request, Response } from "express"
 import { OrdenDtoIn } from "../dtos/orden.dto"
 import { OrdenRdn } from "../reglasDeNegocio/oden.rdn"
 import jwt from "jsonwebtoken"
-import { ParamsDictionary } from "express-serve-static-core"
-import { ParsedQs } from "qs"
 import { IdDto } from "../dtos/id.dto"
 const secret = "VineAComalaABuscarAMiPadreUnTalPedroParamo"
 

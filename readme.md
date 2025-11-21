@@ -1,3 +1,4 @@
+# Todo
 - [ ] Generar el docker
 - [ ] Crud de productos
 - [ ] Productos con store files
@@ -5,6 +6,7 @@
 - [ ] Clientes
 - [ ] Usuarios
 - [ ] Agregar los productos completos
+- [ ] .env para las configuraciones
 
 ## Para celular
 Hacer lo más simple
@@ -13,8 +15,8 @@ Hacer lo más simple
 - [x] get     api/productos
 - [x] get     api/productos/categorias/:categoriaId
 - [x] get     imagenes/nombreDeImages.jpg   (ruta statica)
-- [ ] post    api/clientes
-- [ ] post    api/clientes/inicioDeSesiones
+- [x] post    api/clientes
+- [x] post    api/clientes/inicioDeSesiones
 - [ ] post    api/ordenes
 - [ ] get     api/ordenes/clientes/:clienteId
 - [ ] post    api/usuarios/inicioDeSesiones
