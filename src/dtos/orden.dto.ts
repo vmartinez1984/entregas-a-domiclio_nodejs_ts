@@ -17,7 +17,7 @@ export class OrdenDtoIn {
 export interface OrdenDto {
     id: number
     productos: ProductoDto[]
-    usuarioId: number
+    clienteId: number
     encodedkey: string,
     fechaDeCreacion: Date
     fechaDeActualizacion: Date
@@ -26,7 +26,11 @@ export interface OrdenDto {
 }
 
 export interface OrdenConDetalleDto {
-    productoId: number
+    id: number
+	nombre: string
+	descripcion: string
+	precio: number
+	encodedkey: string,
     nota: string
 }
 

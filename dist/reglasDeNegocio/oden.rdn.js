@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrdenRdn = void 0;
 const orden_repositorio_1 = require("../repositorios/orden.repositorio");
-const usuario_repositorio_1 = require("../repositorios/usuario.repositorio");
+const cliente_repositorio_1 = require("../repositorios/cliente.repositorio");
 class OrdenRdn {
     async obtenerPorIdAsync(encodedkey) {
         const orden = await orden_repositorio_1.OrdenRepositorio.findOne({ encodedkey: encodedkey });
@@ -29,7 +29,7 @@ class OrdenRdn {
             .lean();
         const nuevoId = ultimo && typeof ultimo.id === "number" ? ultimo.id + 1 : 1;
         const total = orden.productos.reduce((sum, item) => sum + item.precio, 0);
-        const usuario = await usuario_repositorio_1.UsuarioRepositorio.findOne({ encodedkey: clienteId });
+        const usuario = await cliente_repositorio_1.ClienteRepositorio.findOne({ encodedkey: clienteId });
         const documento = new orden_repositorio_1.OrdenRepositorio({
             id: nuevoId,
             clienteId: usuario?.id,

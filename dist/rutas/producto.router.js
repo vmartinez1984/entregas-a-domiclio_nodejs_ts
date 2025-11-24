@@ -8,4 +8,5 @@ const productoRouter = (0, express_1.Router)();
 const controller = new productos_controller_1.ProductosController();
 productoRouter.post('/productos', produto_dto_1.productoChecks, validacion_1.revisarValidacion, controller.agregarAsync);
 productoRouter.get('/productos', controller.obtenerTodosAsync);
+productoRouter.get('/productos/categorias/:categoriaId', controller.obtenerPorCategoriaIdAsync);
 exports.default = productoRouter;

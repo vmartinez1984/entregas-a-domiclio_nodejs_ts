@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const cliente_controller_1 = require("../controllers/cliente.controller");
+const validacion_1 = require("../middlewares/validacion");
+const cliente_dto_1 = require("../dtos/cliente.dto");
+const clienteRouter = (0, express_1.Router)();
+const controller = new cliente_controller_1.ClientesController();
+clienteRouter.post('/clientes', cliente_dto_1.clienteChecks, validacion_1.revisarValidacion, controller.agregarAsync);
+clienteRouter.get('/clientes/inicioDeSesiones', controller.iniciarSesionAsync);
+exports.default = clienteRouter;

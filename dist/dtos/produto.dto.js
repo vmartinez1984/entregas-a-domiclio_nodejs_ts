@@ -10,6 +10,12 @@ exports.productoChecks = [
         .isString()
         .withMessage('El nombre debe ser texto')
         .trim(),
+    (0, express_validator_1.check)('categoriaId')
+        .notEmpty()
+        .withMessage('La categoriaId es obligatorio'),
+    (0, express_validator_1.check)('imagen')
+        .notEmpty()
+        .withMessage('La imagen es obligatorio'),
     (0, express_validator_1.check)('descripcion')
         .notEmpty()
         .withMessage('La descripcion es obligatoria')

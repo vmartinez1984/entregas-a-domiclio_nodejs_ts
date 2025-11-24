@@ -17,7 +17,8 @@ Hacer lo más simple
 - [x] get     imagenes/nombreDeImages.jpg   (ruta statica)
 - [x] post    api/clientes
 - [x] post    api/clientes/inicioDeSesiones
-- [ ] post    api/ordenes
+- [x] post    api/ordenes
+- [ ] get     api/ordenes/:idEncodedkey
 - [ ] get     api/ordenes/clientes/:clienteId
 - [ ] post    api/usuarios/inicioDeSesiones
 
@@ -39,3 +40,4 @@ curl --location 'http://localhost:3001/api/productos' \
 ```
 curl --location 'http://localhost:3001/images/16fa6b62-cd53-45d6-a238-e1673a7420ca.jpg'
 ```
+

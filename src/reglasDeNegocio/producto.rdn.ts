@@ -1,15 +1,18 @@
-import path from "path";
-import { AlmacenDeArchivos } from "../almacenes/almacen-de-archivos";
-import { IdDto } from "../dtos/id.dto";
-import { ProductoDto, ProductoDtoIn } from "../dtos/produto.dto";
-import { ProductoRepositorio } from "../repositorios/producto.repositorio";
+import path from "path"
+import { AlmacenDeArchivos } from "../almacenes/almacen-de-archivos"
+import { IdDto } from "../dtos/id.dto"
+import { ProductoDto, ProductoDtoIn } from "../dtos/produto.dto"
+import { ProductoRepositorio } from "../repositorios/producto.repositorio"
 
 export class ProductoRdn {
-    
+
     async obtenerPorEncodedKeyAsync(encodedkey: string): Promise<ProductoDto | null> {
-        const producto = await ProductoRepositorio.findOne({ encodedkey: encodedkey })
+        let producto = await ProductoRepositorio.findOne({ encodedkey: encodedkey })
         if (!producto) {
-            return null
+            producto = await ProductoRepositorio.findOne({ id: parseInt(encodedkey) })
+            if (!producto) {
+                return null
+            }
         }
         const dto: ProductoDto = {
             encodedkey: producto.encodedkey,
@@ -17,7 +20,8 @@ export class ProductoRdn {
             nombre: producto.nombre,
             descripcion: producto.descripcion,
             precio: producto.precio,
-            nombreDeLaImagen: producto.nombreDeLaImagen
+            nombreDeLaImagen: producto.nombreDeLaImagen,
+            categoriaId: producto.categoriaId
         }
         return dto
     }
@@ -32,11 +36,27 @@ export class ProductoRdn {
                 nombre: item.nombre,
                 descripcion: item.descripcion,
                 precio: item.precio,
-                nombreDeLaImagen: item.nombreDeLaImagen
+                nombreDeLaImagen: item.nombreDeLaImagen,
+                categoriaId: item.categoriaId
             });
         });
 
         return dtos
+    }
+
+    async actualizarAsync(productoId: string, producto: ProductoDtoIn, archivo: any): Promise<void> {
+        let productoRegistrado = await ProductoRepositorio.findOne({ encodedkey: productoId })
+        if (!productoRegistrado)
+            productoRegistrado = await ProductoRepositorio.findOne({ id: parseInt(productoId) })
+        const almacenDeArchivos: AlmacenDeArchivos = new AlmacenDeArchivos()
+        //console.log(productoRegistrado)
+        almacenDeArchivos.actualizarArchivoAsync(productoRegistrado!.nombreDeLaImagen, archivo.data)
+        productoRegistrado!.nombre = producto.nombre
+        productoRegistrado!.descripcion = producto.descripcion
+        productoRegistrado!.precio = producto.precio
+        productoRegistrado!.categoriaId = producto.categoriaId
+
+        await productoRegistrado!.save()
     }
 
     async agregarAsync(producto: ProductoDtoIn, archivo: any): Promise<IdDto> {
@@ -88,6 +108,7 @@ export class ProductoRdn {
                 descripcion: item.descripcion,
                 precio: item.precio,
                 nombreDeLaImagen: item.nombreDeLaImagen,
+                categoriaId: item.categoriaId
             });
         });
 

@@ -9,5 +9,5 @@ const controller = new ProductosController()
 productoRouter.post('/productos', productoChecks, revisarValidacion, controller.agregarAsync)
 productoRouter.get('/productos', controller.obtenerTodosAsync)
 productoRouter.get('/productos/categorias/:categoriaId', controller.obtenerPorCategoriaIdAsync)
-
+productoRouter.put('/productos/:productoId', controller.actualizarAsync)
 export default productoRouter

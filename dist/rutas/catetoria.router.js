@@ -2,8 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const categorias_controller_1 = require("../controllers/categorias.controller");
+const categoria_dto_1 = require("../dtos/categoria.dto");
+const validacion_1 = require("../middlewares/validacion");
 const router = (0, express_1.Router)();
 const controller = new categorias_controller_1.CategoriaController();
-router.post('/categorias', controller.agregarAsync);
+router.post('/categorias', categoria_dto_1.categoriaChecks, validacion_1.revisarValidacion, controller.agregarAsync);
 router.get('/categorias', controller.obtenerTodosAsync);
+router.put('/categorias/:idEncodedkey', categoria_dto_1.categoriaChecks, validacion_1.revisarValidacion, controller.actualizarAsync);
+router.delete('/categorias/:idEncodedkey', controller.borrarAsync);
 exports.default = router;

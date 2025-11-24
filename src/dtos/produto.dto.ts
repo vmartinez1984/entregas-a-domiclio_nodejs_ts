@@ -11,9 +11,14 @@ export const productoChecks = [
 	check('categoriaId')
 		.notEmpty()
 		.withMessage('La categoriaId es obligatorio'),
-	check('imagen')
-		.notEmpty()
-		.withMessage('La imagen es obligatorio'),
+	check('imagen').custom((_, { req }) => {
+		const files = (req as any).files;
+		if (!files || !files.imagen) {
+			throw new Error('La imagen es obligatoria');
+		}
+		//console.log(files.imagen);
+		return true
+	}),
 	check('descripcion')
 		.notEmpty()
 		.withMessage('La descripcion es obligatoria')
@@ -34,6 +39,7 @@ export class ProductoDtoIn {
 	precio: number
 	encodedkey: any
 	categoriaId: number
+	imagen: any
 
 	constructor(body: any) {
 		this.nombre = body.nombre
@@ -51,4 +57,5 @@ export interface ProductoDto {
 	precio: number
 	encodedkey: string,
 	nombreDeLaImagen: string
+	categoriaId: number
 }

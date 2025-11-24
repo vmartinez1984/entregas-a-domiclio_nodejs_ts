@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrdenesController = void 0;
 const orden_dto_1 = require("../dtos/orden.dto");
-const oden_rdn_1 = require("../reglasDeNegocio/oden.rdn");
+const orden_rdn_1 = require("../reglasDeNegocio/orden.rdn");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const secret = "VineAComalaABuscarAMiPadreUnTalPedroParamo";
 class OrdenesController {
@@ -26,7 +26,15 @@ class OrdenesController {
             const idDto = await this.ordenRdn.agregarAsync(clienteId, orden);
             return res.status(201).json(idDto);
         };
-        this.ordenRdn = new oden_rdn_1.OrdenRdn();
+        this.obtenerPorId = async (req, res) => {
+            const encodedkey = req.params.encodedkey;
+            const orden = await this.ordenRdn.obtenerPorIdAsync(encodedkey);
+            if (!orden) {
+                return res.status(404).json({ message: "Orden no encontrada" });
+            }
+            return res.status(200).json(orden);
+        };
+        this.ordenRdn = new orden_rdn_1.OrdenRdn();
     }
 }
 exports.OrdenesController = OrdenesController;

@@ -6,5 +6,6 @@ const ordenRouter = Router()
 const controller = new OrdenesController()
 
 ordenRouter.post('/ordenes', verifyToken, controller.agregarAsync)
+ordenRouter.get('/ordenes/:encodedkey', verifyToken, controller.obtenerPorId)
 
 export default ordenRouter

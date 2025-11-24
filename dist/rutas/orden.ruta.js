@@ -6,4 +6,5 @@ const token_middleware_1 = require("../middlewares/token.middleware");
 const ordenRouter = (0, express_1.Router)();
 const controller = new ordenes_controller_1.OrdenesController();
 ordenRouter.post('/ordenes', token_middleware_1.verifyToken, controller.agregarAsync);
+ordenRouter.get('/ordenes/:encodedkey', token_middleware_1.verifyToken, controller.obtenerPorId);
 exports.default = ordenRouter;

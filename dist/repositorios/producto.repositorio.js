@@ -9,6 +9,8 @@ const ProductoSchema = new mongoose_1.Schema({
     precio: { type: Number, required: true },
     categoriaId: { type: Number, required: true },
     encodedkey: { type: String, required: true },
-    estaActivo: { type: Boolean, required: true }
+    estaActivo: { type: Boolean, required: true },
+    nombreDeLaImagen: { type: String, required: false },
+    rutaDeLaImagen: { type: String, required: false }
 }, { timestamps: true });
 exports.ProductoRepositorio = (0, mongoose_1.model)('Productos', ProductoSchema);

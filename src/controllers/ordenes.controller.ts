@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import { OrdenDtoIn } from "../dtos/orden.dto"
-import { OrdenRdn } from "../reglasDeNegocio/oden.rdn"
+import { OrdenRdn } from "../reglasDeNegocio/orden.rdn"
 import jwt from "jsonwebtoken"
 import { IdDto } from "../dtos/id.dto"
 const secret = "VineAComalaABuscarAMiPadreUnTalPedroParamo"
@@ -29,6 +29,17 @@ export class OrdenesController {
 
         return res.status(201).json(idDto);
     }
+
+    obtenerPorId = async (req: Request, res: Response) => {
+        const encodedkey = req.params.encodedkey
+        const orden = await this.ordenRdn.obtenerPorIdAsync(encodedkey)
+        if (!orden) {
+            return res.status(404).json({ message: "Orden no encontrada" });
+        }
+    
+        return res.status(200).json(orden);
+    }    
+
 }
 
 function obtenerClienteIdDesdeToken(req: Request): string {

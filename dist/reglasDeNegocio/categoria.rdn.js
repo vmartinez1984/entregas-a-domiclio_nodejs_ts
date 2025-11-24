@@ -1,8 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CategoriaRdn = void 0;
+const ayudante_1 = require("../ayudantes/ayudante");
 const categoria_repositorio_1 = require("../repositorios/categoria.repositorio");
 class CategoriaRdn {
+    async obtenerPorIdAsync(idEncodedkey) {
+        if ((0, ayudante_1.isNumberString)(idEncodedkey)) {
+            return await categoria_repositorio_1.CategoriaRepositorio.findOne({ id: Number(idEncodedkey) });
+        }
+        return await categoria_repositorio_1.CategoriaRepositorio.findOne({ encodedkey: idEncodedkey });
+    }
     async agregarAsync(categoria) {
         // Simular id autoincrementable: buscar el mayor id actual y sumar 1
         const ultimo = await categoria_repositorio_1.CategoriaRepositorio.findOne()
@@ -25,7 +32,7 @@ class CategoriaRdn {
         return idDto;
     }
     async obtenerTodosAsync() {
-        const categorias = await categoria_repositorio_1.CategoriaRepositorio.find();
+        const categorias = await categoria_repositorio_1.CategoriaRepositorio.find({ estaActivo: true });
         let dtos = [];
         categorias.forEach((item) => {
             dtos.push({
@@ -35,6 +42,20 @@ class CategoriaRdn {
             });
         });
         return dtos;
+    }
+    async actualizarAsync(categoria) {
+        await categoria_repositorio_1.CategoriaRepositorio.updateOne({ encodedkey: categoria.encodedkey }, {
+            $set: {
+                nombre: categoria.nombre
+            },
+        });
+    }
+    async borrarAsync(categoria) {
+        await categoria_repositorio_1.CategoriaRepositorio.updateOne({ encodedkey: categoria.encodedkey }, {
+            $set: {
+                estaActivo: false
+            },
+        });
     }
 }
 exports.CategoriaRdn = CategoriaRdn;
